@@ -7,8 +7,8 @@
     <!--This is an executable-->
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GadgeteerApp1</RootNamespace>
-    <AssemblyName>GadgeteerApp1</AssemblyName>
+    <RootNamespace>cooling.system.controller</RootNamespace>
+    <AssemblyName>cooling.system.controller</AssemblyName>
     <TargetFrameworkVersion>v4.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <!--Identify this as a MicroFramework, CSharp project-->
@@ -47,6 +47,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ui\MainView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Gadgeteer, Version=2.43.1.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -88,4 +89,5 @@
       <Name>extra</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

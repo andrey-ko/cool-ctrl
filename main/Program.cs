@@ -17,9 +17,10 @@ using Gadgeteer.Modules.GHIElectronics;
 
 using GHI.Pins;
 
-namespace GadgeteerApp1 {
+namespace cooling.system.controller {
 	using extra;
 	using System.Text;
+	using ghi = GHIElectronics.Gadgeteer;
 
 	public partial class Program {
 
@@ -29,21 +30,7 @@ namespace GadgeteerApp1 {
 
 		//}
 
-		public struct Margin {
-
-			public int left;
-			public int top;
-			public int right;
-			public int bottom;
-
-			public Margin(int left, int top, int right, int bottom) {
-				this.left = left;
-				this.top = top;
-				this.right = right;
-				this.bottom = bottom;
-			}
-		}
-
+		
 		public class MyUiElement : UIElement {
 			protected override void MeasureOverride(int availableWidth, int availableHeight, out int desiredWidth, out int desiredHeight) {
 				desiredWidth = 50;
@@ -56,99 +43,7 @@ namespace GadgeteerApp1 {
 				base.RenderRecursive(dc);
 			}
 		}
-
-		class Button: ContentControl {
-			readonly Border root;
-			readonly Text text;
-			
-			//public delegate void Action();
-			//public delegate void Action<T>(T arg);
-
-			//public event Action<Button> onClick;
-
-			public Margin margin {
-				get {
-					Margin res;
-					root.GetMargin(out res.left, out res.top, out res.right, out res.bottom);
-					return res;
-				}
-				set {
-					root.SetMargin(value.left, value.top, value.right, value.bottom);
-				}
-			}
-
-			public string caption {
-				get {
-					return text.TextContent;
-				}
-				set {
-					text.TextContent = value;
-                }
-			}
-
-			public Button(string caption) {
-				text = new Text() {
-					Font = Fonts.ninaB,
-					TextContent = caption,
-					ForeColor = Colors.Black
-				};
-				text.TouchDown += (s, a) => {
-					root.Background = new SolidColorBrush(Colors.Brown);
-				};
-
-				var textQ = new MyUiElement() {
-
-				};
-				text.SetMargin(16);
-				root = new Border() {
-					Child = textQ,
-                    Background = new SolidColorBrush(Colors.White),
-					Foreground = new SolidColorBrush(Colors.Black)
-				};
-
-				root.TouchDown += OnTouchDown;
-				root.TouchUp += OnTouchUp;
-				Child = root;
-				//root.TouchGestureEnd += OnTouchGestureEnd;
-				//root.TouchGestureStart += OnTouchGestureStart;
-				//text.TouchDown += (s, a) => {
-				//	root.Background = new SolidColorBrush(Colors.);
-				//};
-			}
-
-			bool touched = false;
-
-			SolidColorBrush white = new SolidColorBrush(Colors.White);
-			SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
-			SolidColorBrush blue = new SolidColorBrush(Colors.Blue);
-
-			void OnTouchDown(object sender, TouchEventArgs args) {
-				args.Handled = true;
-				root.Background = touched ? white : blue;
-				touched = !touched;
-				TouchCapture.Capture(root);
-            }
-			void OnTouchUp(object sender, EventArgs args) {
-				root.Background = yellow;
-				TouchCapture.Capture(root, CaptureMode.None);
-            }
-
-			//void OnTouchGestureStart(object sender, EventArgs args) {
-			//	root.Background = new SolidColorBrush(Colors.Green);
-			//}
-
-			//void OnTouchGestureEnd(object sender, EventArgs args) {
-			//	root.Background = new SolidColorBrush(Colors.Red);
-			//}
-
-			public void SetMargin(int left, int top, int right, int bottom) {
-				root.SetMargin(left, top, right, bottom);
-            }
-
-
-
-		}
-
+		
 		public class InputButton {
 			public delegate void Action();
 			bool clickOnUp = false;
@@ -176,6 +71,7 @@ namespace GadgeteerApp1 {
 
 		// This method is run when the mainboard is powered up or reset.   
 		void ProgramStarted() {
+			
 			//Configuration.LCD.Set(lcdConfig);
 
 			/*******************************************************************************************
@@ -213,40 +109,30 @@ namespace GadgeteerApp1 {
 
 			//}
 
+			//var mainFanView = new PropValEdit("fan main");
+			//var intFanView = new PropValEdit("fan internal", "off");
+			//var sysTempView = new PropVal("temp system");
+			//var cpuTempView = new PropVal("temp cpu");
+			//var p1TempView = new PropVal("temp p1");
+
 			disp.SimpleGraphics.Clear();
 			disp.SimpleGraphics.DisplayEllipse(GT::Color.Red, 1, GT::Color.Green, 10, 10, 10, 10);
 			disp.SimpleGraphics.Redraw();
 			Window window = disp.WPFWindow;
-			var root = new StackPanelEx(Orientation.Vertical);
-			window.Child = root;
+			//var root = new StackPanelEx(Orientation.Vertical) {
+			//	Children = {
+			//		mainFanView, intFanView, sysTempView, cpuTempView, p1TempView
+			//	}
+			//};
 
-			//system info
-			var sysInfo = new Text() {
-				Font = Fonts.small,
-				TextContent = String.Concat(
-					Mainboard.MainboardName, " ",
-					Mainboard.MainboardVersion, ", ",
-					(Cpu.SystemClock / 1000 / 1000).ToString() + " Mhz"
-				),
-				ForeColor = Colors.Blue
-			};
-			sysInfo.SetMargin(3);
-            root.Children.Add(sysInfo);
+			//window.Child = root;
+
+			var view = new MainView();
+			view.Show(window);
 			
-			var mainFanView = new PropValEdit("fan main");
-			root.Children.Add(mainFanView);
 
-			var intFanView = new PropValEdit("fan internal", "off");
-			root.Children.Add(intFanView);
-
-			var sysTempView = new PropVal("temp system");
-			root.Children.Add(sysTempView);
-
-			var cpuTempView = new PropVal("temp cpu");
-			root.Children.Add(cpuTempView);
-
-			var p1TempView = new PropVal("temp p1");
-			root.Children.Add(p1TempView);
+			
+		
 
 			//var analogLbl = new Text() {
 			//	Font = Resources.GetFont(Resources.FontResources.NinaB),
@@ -291,7 +177,7 @@ namespace GadgeteerApp1 {
 			speedContorl.Children.Add(tttt);
 
 
-			root.Children.Add(speedContorl);
+			//root.Children.Add(speedContorl);
 			
 			window.Visibility = Visibility.Visible;
 
@@ -355,8 +241,8 @@ namespace GadgeteerApp1 {
 				var Temp = System.Math.Log(10000/analogAvg - 10000);
 				var TempK = 1 / (0.001129148 + (0.000234125 + 0.0000000876741 * Temp * Temp) * Temp);
 				var TempC = TempK - 273.15;
-				
-                sysTempView.valTxt.TextContent = String.Concat(
+
+				view.sysTempView.valTxt.TextContent = String.Concat(
 					TempC.ToString("F1"), " C°",
 					" (", (analogAvg * 3.3).ToString("F2"), "V)"
 				);
@@ -391,7 +277,7 @@ namespace GadgeteerApp1 {
 					mainFanVal.Append((int)(pwm2.Frequency / 1000000000.0));
 					mainFanVal.Append(" Ghz");
 				}
-				mainFanView.valTxt.TextContent = mainFanVal.ToString();
+				view.mainFanView.valTxt.TextContent = mainFanVal.ToString();
 
 				if (b1_click_when_up && b1) {
 					if (pwm2.Duration < pwm2.Period) {
@@ -419,7 +305,7 @@ namespace GadgeteerApp1 {
 				b2_click_when_up = !b2;
 
 			};
-			timer.Start();
+			//timer.Start();
         }
 
 		void OnRender(object sender, EventArgs args) {

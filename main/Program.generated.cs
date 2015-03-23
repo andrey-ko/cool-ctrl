@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GadgeteerApp1 {
+namespace cooling.system.controller {
     using Gadgeteer;
     using GTM = Gadgeteer.Modules;
     
@@ -19,7 +19,7 @@ namespace GadgeteerApp1 {
         private Gadgeteer.Modules.GHIElectronics.DisplayTE35 disp;
         
         /// <summary>This property provides access to the Mainboard API. This is normally not necessary for an end user program.</summary>
-        protected new static GHIElectronics.Gadgeteer.FEZCobraIIEco Mainboard {
+        public new static GHIElectronics.Gadgeteer.FEZCobraIIEco Mainboard {
             get {
                 return ((GHIElectronics.Gadgeteer.FEZCobraIIEco)(Gadgeteer.Program.Mainboard));
             }
