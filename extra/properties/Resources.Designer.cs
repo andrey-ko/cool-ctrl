@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GadgeteerApp1
+namespace extra.properties
 {
     
     internal partial class Resources
@@ -20,7 +20,7 @@ namespace GadgeteerApp1
             {
                 if ((Resources.manager == null))
                 {
-                    Resources.manager = new System.Resources.ResourceManager("GadgeteerApp1.Resources", typeof(Resources).Assembly);
+                    Resources.manager = new System.Resources.ResourceManager("extra.properties.Resources", typeof(Resources).Assembly);
                 }
                 return Resources.manager;
             }

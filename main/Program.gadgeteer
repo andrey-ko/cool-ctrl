@@ -68,9 +68,4 @@
       </module>
     </gadgeteerModelHasGadgeteerHardware>
   </gadgeteerHardware>
-  <comments>
-    <gadgeteerModelHasComments Id="9bc28e5a-6653-4dee-a9b4-078e1a42c1b4">
-      <comment Id="f72c18c0-e8bb-4ea0-89a4-88dfa7b649f2" text="Tip: To have the designer connect all modules for you, right-click the diagram, and then click 'Connect all modules'." />
-    </gadgeteerModelHasComments>
-  </comments>
 </gadgeteerModel>
